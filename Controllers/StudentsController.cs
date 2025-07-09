@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
 using StudentManagement.Data;
-using StudentManagement.DTOs;
+
 
 using StudentManagement.Models;
 

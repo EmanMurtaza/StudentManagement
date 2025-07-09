@@ -17,10 +17,40 @@ namespace StudentManagement.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.6");
 
+            modelBuilder.Entity("StudentManagement.Models.Course", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Courses");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Title = "Web Development"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Title = "Database Systems"
+                        });
+                });
+
             modelBuilder.Entity("StudentManagement.Models.Students", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("CourseId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Department")
@@ -42,12 +72,15 @@ namespace StudentManagement.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CourseId");
+
                     b.ToTable("Students");
 
                     b.HasData(
                         new
                         {
                             Id = 1,
+                            CourseId = 1,
                             Department = "Computer Science",
                             Email = "ali.khan@example.com",
                             EnrolledDate = new DateTime(2023, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
@@ -56,19 +89,28 @@ namespace StudentManagement.Migrations
                         new
                         {
                             Id = 2,
+                            CourseId = 2,
                             Department = "Business Administration",
                             Email = "sara.ahmed@example.com",
                             EnrolledDate = new DateTime(2022, 8, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "Sara Ahmed"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Department = "Mathematics",
-                            Email = "bilal.tariq@example.com",
-                            EnrolledDate = new DateTime(2024, 1, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "Bilal Tariq"
                         });
+                });
+
+            modelBuilder.Entity("StudentManagement.Models.Students", b =>
+                {
+                    b.HasOne("StudentManagement.Models.Course", "Course")
+                        .WithMany("Students")
+                        .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Course");
+                });
+
+            modelBuilder.Entity("StudentManagement.Models.Course", b =>
+                {
+                    b.Navigation("Students");
                 });
 #pragma warning restore 612, 618
         }

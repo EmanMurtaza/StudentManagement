@@ -1,4 +1,4 @@
-@using StudentManagement.DTOs
+@using StudentManagement.Models
 @model IEnumerable<StudentDto>
 
 
@@ -29,6 +29,7 @@
             <td>@student.Name</td>
             <td>@student.Department</td>
             <td>@student.CourseTitle</td>
+
             <td>
                 <a asp-action="Details" asp-route-id="@student.Id">Details</a> |
                 <a asp-action="Edit" asp-route-id="@student.Id">Edit</a> |
