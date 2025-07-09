@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using StudentManagement.Models;
 
 namespace StudentManagement.Models
 {
@@ -17,5 +18,13 @@ namespace StudentManagement.Models
 
         [DataType(DataType.Date)]
         public DateTime EnrolledDate { get; set; }
+
+        public int CourseId { get; set; }
+        [Required, StringLength(100)]             // Foreign Key
+
+
+        public Course Course { get; set; } 
+       
+
     }
 }
