@@ -11,6 +11,7 @@ public class HomeController : Controller
     public HomeController(ILogger<HomeController> logger)
     {
         _logger = logger;
+
     }
 
     public IActionResult Index()
@@ -28,4 +29,11 @@ public class HomeController : Controller
     {
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
+
+    [HttpGet("/api/test")]
+public IActionResult ApiTest()
+{
+    return Ok("✅ API test working from HomeController");
+}
+
 }
