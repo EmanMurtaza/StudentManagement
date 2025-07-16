@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "ZHkarj8s2G60xxqMZeDGQRYvn8SPfU0UuiRGFOD8CXU=",
+  "Hash": "ccfc+0iTRUCGvo+UUl2m7QURODPjJQSDpASZzo0bzjw=",
   "Source": "StudentManagement",
   "BasePath": "_content/StudentManagement",
   "Mode": "Default",
@@ -91,6 +91,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\favicon.ico"
+    },
+    {
+      "Identity": "C:\\Users\\Alli\\StudentManagement\\wwwroot\\js\\contact.js",
+      "SourceId": "StudentManagement",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Alli\\StudentManagement\\wwwroot\\",
+      "BasePath": "_content/StudentManagement",
+      "RelativePath": "js/contact.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\js\\contact.js"
     },
     {
       "Identity": "C:\\Users\\Alli\\StudentManagement\\wwwroot\\js\\site.js",

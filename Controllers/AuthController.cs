@@ -12,40 +12,46 @@ namespace StudentManagement.Controllers
     public class AuthController : ControllerBase
     {
         private readonly IConfiguration _config;
+        private readonly ILogger<AuthController> _logger;
 
-        public AuthController(IConfiguration config)
+        public AuthController(IConfiguration config, ILogger<AuthController> logger)
         {
-            Console.WriteLine("🔥 AuthController constructor HIT");
             _config = config;
+            _logger = logger;
+            _logger.LogInformation("🔥 AuthController constructor HIT");
         }
 
-[HttpGet("ping")]
-public IActionResult Ping()
-{
-    return Ok("AuthController is alive ✅");
-}
+        // Health check endpoint
+        [HttpGet("ping")]
+        public IActionResult Ping()
+        {
+            return Ok("✅ AuthController is alive");
+        }
 
-
+        // Quick test endpoint
         [HttpGet("test")]
         public IActionResult Test()
         {
-            Console.WriteLine("🧪 /api/auth/test HIT!");
+            _logger.LogInformation("🧪 /api/auth/test HIT!");
             return Ok("✅ AuthController is working!");
         }
 
-     [HttpPost("login")]
-public IActionResult Login([FromBody] LoginRequest request)
-{
-    Console.WriteLine("🔐 Login endpoint HIT");
+        // Login endpoint
+        [HttpPost("login")]
+        public IActionResult Login([FromBody] LoginRequest request)
+        {
+            _logger.LogInformation("🔐 Login endpoint HIT");
 
-    if (request.Username != "admin" || request.Password != "1234")
-        return Unauthorized("Invalid credentials");
+            if (request == null || request.Username != "admin" || request.Password != "1234")
+            {
+                return Unauthorized("Invalid credentials");
+            }
 
-    var token = GenerateJwtToken("admin", "Admin");
-    return Ok(new { token });
-}
+            var token = GenerateJwtToken("admin", "Admin");
+            return Ok(new { token });
+        }
 
-
+        // JWT Token Generator
         private string GenerateJwtToken(string username, string role)
         {
             var claims = new[]
@@ -53,19 +59,26 @@ public IActionResult Login([FromBody] LoginRequest request)
                 new Claim(ClaimTypes.Name, username),
                 new Claim(ClaimTypes.Role, role)
             };
-var jwtKey = _config["Jwt:Key"] ?? throw new InvalidOperationException("JWT key is missing from configuration.");
-var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey));
 
+            var jwtKey = _config["Jwt:Key"];
+            var issuer = _config["Jwt:Issuer"];
+
+            if (string.IsNullOrWhiteSpace(jwtKey) || string.IsNullOrWhiteSpace(issuer))
+                throw new InvalidOperationException("JWT configuration is missing.");
+
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
             var token = new JwtSecurityToken(
-                issuer: _config["Jwt:Issuer"],
+                issuer: issuer,
                 audience: null,
                 claims: claims,
                 expires: DateTime.Now.AddHours(1),
-                signingCredentials: creds);
+                signingCredentials: creds
+            );
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
     }
 }
+
